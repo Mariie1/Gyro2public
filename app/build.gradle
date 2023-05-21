@@ -3,7 +3,7 @@ plugins {
 }
 apply plugin: "androidx.navigation.safeargs"
 android {
-    //namespace "com.example.gyro2"
+    namespace "com.example.gyro2"
     compileSdk 33
 
     defaultConfig {
