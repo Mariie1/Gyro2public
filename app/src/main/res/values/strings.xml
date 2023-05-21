@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Gyro2</string>
+    <string name="Monitoring">Monitoring</string>
+    <string name="feedback_view">Feedback View</string>
 </resources>
