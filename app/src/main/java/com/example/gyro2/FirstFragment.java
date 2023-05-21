@@ -15,4 +15,14 @@ public class FirstFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_first, container, false);
     }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        view.findViewById(R.id.button).setOnClickListener(button ->{
+            //TODO:Navigieren zum Monitoring/second Fragment
+        });
+        view.findViewById(R.id.button1).setOnClickListener(button1 ->{
+            //TODO: Navigieren zum Feedback/third Fragment
+        });
+    }
 }
