@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 public class FirstFragment extends Fragment {
     @Nullable
@@ -18,11 +20,13 @@ public class FirstFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        final NavController controller = Navigation.findNavController(view);
+
         view.findViewById(R.id.button).setOnClickListener(button ->{
-            //TODO:Navigieren zum Monitoring/second Fragment
+            controller.navigate(FirstFragmentDirections.actionFirstFragmentToSecondFragment("Recycler View Title"));
         });
         view.findViewById(R.id.button1).setOnClickListener(button1 ->{
-            //TODO: Navigieren zum Feedback/third Fragment
+            controller.navigate(FirstFragmentDirections.actionFirstFragmentToThirdFragment("Feedback Title"));
         });
     }
 }
