@@ -1,5 +1,6 @@
 package com.example.gyro2;
 
+
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Index;
@@ -11,4 +12,11 @@ public class MyData {
     public Integer id;
     @ColumnInfo(name = "data")
     public String data;
+
+    public MyData() {
+        this.data= data;
+    }
+
+
+
 }
