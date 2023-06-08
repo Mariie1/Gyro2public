@@ -12,8 +12,10 @@ import androidx.lifecycle.ViewModel;
 public class MyViewModel extends BaseViewModel {
     private MutableLiveData<MyData> myDataLiveData = new MutableLiveData<>();
 
+
     public MyViewModel(@NonNull Application application) {
         super(application);
+
     }
 
     public void setMyData(MyData myData){
@@ -25,5 +27,7 @@ public class MyViewModel extends BaseViewModel {
     public void observeData(LifecycleOwner owner, Observer<MyData> observer){
         myDataLiveData.observe(owner, observer);
     }
+
+
 
 }

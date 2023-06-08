@@ -13,7 +13,10 @@ import androidx.annotation.Nullable;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.List;
+
 public class HostActivity extends AppCompatActivity {
+
     private SensorManager sensorManager;
     private Sensor sensor;
     @Override
@@ -39,11 +42,15 @@ public class HostActivity extends AppCompatActivity {
         super.onResume();
         sensorManager.registerListener((SensorEventListener) this, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
     }
+
+
     //das is noch weird
     //@Override
     //protected void onPause() {
     //    super.onPause();
       //  sensorManager.unregisterListener((SensorListener) this);
     //}
-
+    //wohin??
+    //MyDataDao dataDao = db.userDao();
+    //List<MyData> myData = dataDao.getAll();
 }

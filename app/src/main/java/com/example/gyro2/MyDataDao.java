@@ -2,6 +2,7 @@ package com.example.gyro2;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 
@@ -16,10 +17,11 @@ public interface MyDataDao {
 
     //@Query("SELECT * FROM my_data WHERE id=:id")
 
-
     @Insert
     void insertAll(MyData... myData);
 
+    @Delete
+    void delete(MyData...myData);
     //public LiveData<Array<MyData>> getMyData(Integer id);
 
 
