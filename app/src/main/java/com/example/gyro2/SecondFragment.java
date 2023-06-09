@@ -31,5 +31,6 @@ public class SecondFragment extends Fragment {
         if(secondFragmentArgs != null){
             //Ein Recyclerview braucht keinen title oder? lol
         }
+        //hier das mit db.datadao
     }
 }

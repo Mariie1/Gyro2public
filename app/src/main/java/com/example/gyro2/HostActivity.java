@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.List;
+import java.util.Observer;
 
 public class HostActivity extends AppCompatActivity {
 
@@ -29,27 +30,36 @@ public class HostActivity extends AppCompatActivity {
         //Sensor registern
         sensorManager.registerListener((SensorEventListener) this, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
     }
+    private Observer<MyData> o = new Observer<>() {
+        @Override
 
-    public void onSensorChanged(SensorEvent event){
 
-        float[] linear_acceleration = new float[0];
-        linear_acceleration[0] = event.values[0];
-        linear_acceleration[1] = event.values[1];
-        linear_acceleration[2] = event.values[2];
+        public void onSensorChanged(SensorEvent event) {
+
+            float[] linear_acceleration = new float[0];
+            linear_acceleration[0] = event.values[0];
+            linear_acceleration[1] = event.values[1];
+            linear_acceleration[2] = event.values[2];
+        }
+
+        @Override
+        protected void onResume() {
+           // super.onResume();
+            sensorManager.registerListener((SensorEventListener) this, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
+            Event.observeForever(o);
+            MyViewModel.updateData();
+
+
+        }
+
+
+        //das is noch weird
+        @Override
+        protected void onPause() {
+            super.onPause();
+         sensorManager.unregisterListener((SensorListener) this);
+        }
     }
-    @Override
-    protected void onResume() {
-        super.onResume();
-        sensorManager.registerListener((SensorEventListener) this, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
-    }
-
-
-    //das is noch weird
-    //@Override
-    //protected void onPause() {
-    //    super.onPause();
-      //  sensorManager.unregisterListener((SensorListener) this);
-    //}
     //wohin??
     //MyDataDao dataDao = db.userDao();
     //List<MyData> myData = dataDao.getAll();

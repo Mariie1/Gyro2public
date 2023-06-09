@@ -15,14 +15,11 @@ public interface MyDataDao {
     @Query("SELECT * FROM my_data")
     public LiveData<List<MyData>> getAll();
 
-    //@Query("SELECT * FROM my_data WHERE id=:id")
 
     @Insert
-    void insertAll(MyData... myData);
+    void insertAll(MyData myData);
 
-    @Delete
-    void delete(MyData...myData);
-    //public LiveData<Array<MyData>> getMyData(Integer id);
+
 
 
 }
