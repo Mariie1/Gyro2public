@@ -9,6 +9,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Database;
+
+import java.util.List;
 
 public class SecondFragment extends Fragment {
     @Nullable
@@ -26,11 +29,15 @@ public class SecondFragment extends Fragment {
         SecondFragmentArgs secondFragmentArgs = null;
         if (args != null){
             secondFragmentArgs = SecondFragmentArgs.fromBundle(args);
+            Database db = Application.getDatabase();
+            MyDataDao dataDao = db.userDao();
+            List<MyData> myData = dataDao.getAll();
+
         }
 
         if(secondFragmentArgs != null){
             //Ein Recyclerview braucht keinen title oder? lol
         }
-        //hier das mit db.datadao
+
     }
 }
