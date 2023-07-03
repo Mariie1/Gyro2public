@@ -11,10 +11,10 @@ public class MyData {
     @PrimaryKey
     public Integer id;
     @ColumnInfo(name = "data")
-    public String data;
+    public float[] data;
 
-    public MyData() {
-        this.data= data;
+    public MyData(float[] data) {
+                 this.data= data;
     }
 
 

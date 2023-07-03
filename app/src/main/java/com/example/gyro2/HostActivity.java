@@ -8,19 +8,24 @@ import android.hardware.SensorListener;
 import android.hardware.SensorManager;
 import android.media.metrics.Event;
 import android.os.Bundle;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import java.util.List;
+import java.util.Observable;
 import java.util.Observer;
 
 public class HostActivity extends AppCompatActivity{
 
     private SensorManager sensorManager;
     private Sensor sensor;
+    private MyViewModel myViewModel;
+    private TextView textfield;
     private SensorEventListener listener = new SensorEventListener() {
         @Override
         public void onSensorChanged(SensorEvent event) {
@@ -28,7 +33,7 @@ public class HostActivity extends AppCompatActivity{
             linear_acceleration[0] = event.values[0];
             linear_acceleration[1] = event.values[1];
             linear_acceleration[2] = event.values[2];
-            MyViewModel.updateData(linear_acceleration);
+            myViewModel.updateData(linear_acceleration);
         }
         @Override
         public void onAccuracyChanged(Sensor sensor, int accuracy) {
@@ -40,22 +45,24 @@ public class HostActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_host);
 
+
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         //Sensor registern
 
 
-        MyData.observe(this, new Observer<MyData>(){
-        @Override
-        public void onChanged(MyData myData){
+        //MyData.observe(this, new Observer<MyData>(){
+        //@Override
+        //public void onChanged(MyData myData){
             //textfield.setText(myData.myStringData);
-        }
-        });
+        //}
+        //});
     }
-    private Observer<MyData> o = new Observer<>(){
+       Observer o = new Observer<MyData>(){
+
         @Override
         public void onChanged(MyData myData){
-            //textfield.setText(myData.myStringData);
+            textfield.setText(myData.myStringData);
         }
     };
 
@@ -63,13 +70,13 @@ public class HostActivity extends AppCompatActivity{
     public void onResume() {
         super.onResume();
         sensorManager.registerListener((SensorEventListener) this, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
-        MyData.observeForever(o);
+        //MyData.observeForever(o);
         MyViewModel.updateData();
     }
     public void onPause() {
         super.onPause();
         sensorManager.unregisterListener(listener);
-        MyData.removeObserver(o);
+        //MyData.removeObserver(o);
     }
 
 }
