@@ -11,9 +11,9 @@ public class MyData {
     @PrimaryKey
     public Integer id;
     @ColumnInfo(name = "data")
-    public float[] data;
+    public String data;
 
-    public MyData(float[] data) {
+    public MyData(String data) {
                  this.data= data;
     }
 

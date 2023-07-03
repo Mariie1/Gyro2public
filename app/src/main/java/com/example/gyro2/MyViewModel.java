@@ -13,7 +13,7 @@ import java.sql.Struct;
 //nicht sicher ob das hier alles passt
 public class MyViewModel extends BaseViewModel {
     private MutableLiveData<float[]> myDataLiveData = new MutableLiveData<>();
-   // private MutableLiveData<String> textfield = new MutableLiveData<>();
+   private MutableLiveData<String> textfield = new MutableLiveData<>();
 
     public MyViewModel(@NonNull Application application) {
         super(application);
@@ -22,7 +22,7 @@ public class MyViewModel extends BaseViewModel {
 
     public void updateData(float[] MyData) {
         myDataLiveData.setValue(MyData);
-        //textfield.setValue("Initialer Text");
+        textfield.setValue("Initialer Text");
 
     }
 
@@ -38,11 +38,11 @@ public class MyViewModel extends BaseViewModel {
         myDataLiveData.observe(owner, observer);
     }
 
-    //public LiveData<String> getTextfield(){
-      //  return textfield;
-    //}
-    //public void setText(String text){
-    //    textfield.setValue(text);
-    //}
+    public LiveData<String> getTextfield(){
+       return textfield;
+    }
+    public void setText(String text){
+        textfield.setValue(text);
+    }
 
 }

@@ -26,6 +26,7 @@ public class HostActivity extends AppCompatActivity{
     private Sensor sensor;
     private MyViewModel myViewModel;
     private TextView textfield;
+    private  MyData myData;
     private SensorEventListener listener = new SensorEventListener() {
         @Override
         public void onSensorChanged(SensorEvent event) {
@@ -62,7 +63,7 @@ public class HostActivity extends AppCompatActivity{
 
         @Override
         public void onChanged(MyData myData){
-            textfield.setText(myData.myStringData);
+            textfield.setText(myData);
         }
     };
 
@@ -70,13 +71,13 @@ public class HostActivity extends AppCompatActivity{
     public void onResume() {
         super.onResume();
         sensorManager.registerListener((SensorEventListener) this, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
-        //MyData.observeForever(o);
-        MyViewModel.updateData();
+        myData.observeForever(o);
+        myViewModel.updateData();
     }
     public void onPause() {
         super.onPause();
         sensorManager.unregisterListener(listener);
-        //MyData.removeObserver(o);
+        myData.removeObserver(o);
     }
 
 }
