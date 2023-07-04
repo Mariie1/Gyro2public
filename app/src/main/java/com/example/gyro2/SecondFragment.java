@@ -8,12 +8,17 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Database;
 
 import java.util.List;
 
 public class SecondFragment extends Fragment {
+
+    private LiveData<MyData> myData;
+    private MyDataDao myDataDao;
+    private MyDatabase db;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -29,9 +34,9 @@ public class SecondFragment extends Fragment {
         SecondFragmentArgs secondFragmentArgs = null;
         if (args != null){
             secondFragmentArgs = SecondFragmentArgs.fromBundle(args);
-            Database db = Application.getDatabase();
-            MyDataDao dataDao = db.userDao();
-            List<MyData> myData = dataDao.getAll();
+            db = Application.getDatabase();
+            MyDataDao dataDao = db.myDataDao();
+            LiveData myData = myDataDao.getAll();
 
         }
 

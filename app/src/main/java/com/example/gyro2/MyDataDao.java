@@ -13,7 +13,7 @@ import java.util.List;
 @Dao
 public interface MyDataDao {
     @Query("SELECT * FROM my_data")
-    public LiveData<List<MyData>> getAll();
+    public LiveData<MyData> getAll();
 
 
     @Insert
