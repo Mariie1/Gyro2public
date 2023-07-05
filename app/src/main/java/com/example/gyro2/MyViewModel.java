@@ -9,10 +9,11 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 
 import java.sql.Struct;
+import java.util.ArrayList;
 
 //nicht sicher ob das hier alles passt
 public class MyViewModel extends BaseViewModel {
-    private MutableLiveData<float[]> myDataLiveData = new MutableLiveData<>();
+    private MutableLiveData<ArrayList<float[]>> myDataLiveData = new MutableLiveData<>();
    private MutableLiveData<String> textfield = new MutableLiveData<>();
 
     public MyViewModel(@NonNull Application application) {
@@ -20,21 +21,21 @@ public class MyViewModel extends BaseViewModel {
 
     }
 
-    public void updateData(float[] MyData) {
+    public void updateData(ArrayList<float[]> MyData) {
         myDataLiveData.setValue(MyData);
         textfield.setValue("Initialer Text");
 
     }
 
-    public void setMyData(float[] MyData){
+    public void setMyData(ArrayList<float[]> MyData){
         myDataLiveData.setValue(MyData);
     }
 
-    public LiveData<float[]> getData(){
+    public LiveData<ArrayList<float[]>> getData(){
         return myDataLiveData;
     }
 
-    public void observeData(LifecycleOwner owner, Observer<float[]> observer){
+    public void observeData(LifecycleOwner owner, Observer<ArrayList<float[]>> observer){
         myDataLiveData.observe(owner, observer);
     }
 

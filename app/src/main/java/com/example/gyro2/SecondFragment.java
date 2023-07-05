@@ -10,9 +10,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Database;
-
-import java.util.List;
 
 public class SecondFragment extends Fragment {
 
@@ -34,15 +31,13 @@ public class SecondFragment extends Fragment {
         SecondFragmentArgs secondFragmentArgs = null;
         if (args != null){
             secondFragmentArgs = SecondFragmentArgs.fromBundle(args);
-            db = Application.getDatabase();
+            db =((GyroApplication) getActivity().getApplication()).getDatabase();
             MyDataDao dataDao = db.myDataDao();
             LiveData myData = myDataDao.getAll();
-
         }
 
         if(secondFragmentArgs != null){
-            //Ein Recyclerview braucht keinen title oder? lol
+            //Ein Recyclerview braucht keinen title oder?
         }
-
     }
 }

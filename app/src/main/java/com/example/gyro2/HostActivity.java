@@ -23,20 +23,7 @@ public class HostActivity extends AppCompatActivity{
     private MyViewModel myViewModel;
     private TextView textfield;
     private  float[] myData;
-    private SensorEventListener listener = new SensorEventListener() {
-        @Override
-        public void onSensorChanged(SensorEvent event) {
-            float[] linear_acceleration = new float[0];
-            linear_acceleration[0] = event.values[0];
-            linear_acceleration[1] = event.values[1];
-            linear_acceleration[2] = event.values[2];
-            myViewModel.updateData(linear_acceleration);
-        }
-        @Override
-        public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
-        }
-    };
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,25 +39,9 @@ public class HostActivity extends AppCompatActivity{
         //}
         //});
     }
-       /*private Observer<MyData> o = new Observer<>(){
 
-        @Override
-        public void onChanged(MyData myData){
-            textfield.setText((CharSequence) myData);
-        }*/
-    //};
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        sensorManager.registerListener((SensorEventListener) this, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
-        //myData.observeForever(o);
-        myViewModel.updateData(myData);
-    }
-    public void onPause() {
-        super.onPause();
-        sensorManager.unregisterListener(listener);
-        //myData.removeObserver(o);
-    }
+
+
 
 }
