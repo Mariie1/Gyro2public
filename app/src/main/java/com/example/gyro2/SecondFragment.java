@@ -33,7 +33,7 @@ public class SecondFragment extends Fragment {
             secondFragmentArgs = SecondFragmentArgs.fromBundle(args);
             db =((GyroApplication) getActivity().getApplication()).getDatabase();
             MyDataDao dataDao = db.myDataDao();
-            LiveData myData = myDataDao.getAll();
+             myData = dataDao.getAll();
         }
 
         if(secondFragmentArgs != null){
