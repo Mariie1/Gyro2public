@@ -28,6 +28,7 @@ public class MyViewModel extends BaseViewModel {
     }
 
     public void setMyData(ArrayList<float[]> MyData){
+
         myDataLiveData.setValue(MyData);
     }
 
@@ -40,9 +41,11 @@ public class MyViewModel extends BaseViewModel {
     }
 
     public LiveData<String> getTextfield(){
-       return textfield;
+
+        return textfield;
     }
-    public void setText(String text){
+    public void setText(String  text){
+
         textfield.setValue(text);
     }
 

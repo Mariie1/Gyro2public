@@ -7,9 +7,6 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     private String[] objects;
     /**
@@ -30,7 +27,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             return textView;
         }
     }
-    public MyAdapter(String[] data) {
+    public MyAdapter(String [] data) {
         objects = data;
     }
 

@@ -12,6 +12,8 @@ import androidx.lifecycle.Observer;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
@@ -22,7 +24,8 @@ public class HostActivity extends AppCompatActivity{
     private Sensor sensor;
     private MyViewModel myViewModel;
     private TextView textfield;
-    private  float[] myData;
+    private  MyData myData;
+    private SensorEventListener listener;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,7 +42,26 @@ public class HostActivity extends AppCompatActivity{
         //}
         //});
     }
+    /*private Observer<ArrayList<float[]>> o = new Observer<ArrayList<float[]>>() {
 
+       @Override
+       public void onChanged(MyData myData) {
+           text-field.setText((CharSequence) myData);
+       }
+   };*/
+    @Override
+    public void onResume() {
+        super.onResume();
+        sensorManager.registerListener(listener, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
+        /* myViewModel.observeData(getViewLifecycleOwner(),o);
+        myViewModel.updateData(myData);
+         */
+    }
+    public void onPause() {
+        super.onPause();
+        sensorManager.unregisterListener(listener);
+
+    }
 
 
 

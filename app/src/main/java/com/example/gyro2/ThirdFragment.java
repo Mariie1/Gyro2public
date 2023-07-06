@@ -1,5 +1,7 @@
 package com.example.gyro2;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -15,22 +17,30 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class ThirdFragment extends Fragment {
     private SensorManager sensorManager;
+    private Sensor sensor;
     private MyViewModel myViewModel;
     private MyData myData;
-    private TextView textfield;
+
     private Observer o;
+    private TextView DataTextView;
+
+
 
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView( LayoutInflater inflater,  ViewGroup container,  Bundle savedInstanceState) {
 
-        return inflater.inflate(R.layout.fragment_third, container, false);
+
+        View view =   inflater.inflate(R.layout.fragment_third, container, false);
+        DataTextView = view.findViewById(R.id.textView);
+        return view;
 
     }
     private android.hardware.SensorEventListener listener = new SensorEventListener() {
@@ -41,36 +51,22 @@ public class ThirdFragment extends Fragment {
             linear_acceleration[1] = event.values[1];
             linear_acceleration[2] = event.values[2];
 
-            System.out.println(linear_acceleration[0]);
+           // System.out.println(linear_acceleration[0]);
             ArrayList<float[]> acc_readings = new ArrayList<>(Arrays.asList(linear_acceleration));
             myViewModel.updateData(acc_readings);
+
         }
         @Override
         public void onAccuracyChanged(Sensor sensor, int accuracy) {
         }
     };
-    /*private Observer<ArrayList<float[]>> o = new Observer<ArrayList<float[]>>() {
 
-        @Override
-        public void onChanged(MyData myData) {
-            textfield.setText((CharSequence) myData);
-        }
-    };*/
-    @Override
-    public void onResume() {
-        super.onResume();
-        sensorManager.registerListener(listener, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
-        myViewModel.observeData(getViewLifecycleOwner(),o);
-        //myViewModel.updateData(myData);
-    }
-    public void onPause() {
-        super.onPause();
-        sensorManager.unregisterListener(listener);
 
-    }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        //super.onViewCreated(view, savedInstanceState);
+
         TextView feedbackTitleView = view.findViewById(R.id.textView);
 
         Bundle args = getArguments();
