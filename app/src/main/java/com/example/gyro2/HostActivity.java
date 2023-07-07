@@ -4,6 +4,7 @@ import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
+import android.hardware.SensorListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.widget.TextView;
@@ -34,6 +35,12 @@ public class HostActivity extends AppCompatActivity{
 
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        if(  sensor != null)
+        {
+            sensorManager.registerListener(listener, sensor, SensorManager.SENSOR_DELAY_NORMAL);
+
+        }
+
         //Sensor registern
         //MyData.observe(this, new Observer<MyData>(){
         //@Override
@@ -41,6 +48,11 @@ public class HostActivity extends AppCompatActivity{
             //textfield.setText(myData.myStringData);
         //}
         //});
+    }
+    public void unregisterSensor() {
+        if (sensorManager != null && listener != null) {
+            sensorManager.unregisterListener(listener);
+        }
     }
     /*private Observer<ArrayList<float[]>> o = new Observer<ArrayList<float[]>>() {
 
@@ -53,6 +65,7 @@ public class HostActivity extends AppCompatActivity{
     public void onResume() {
         super.onResume();
         sensorManager.registerListener(listener, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
+        sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         /* myViewModel.observeData(getViewLifecycleOwner(),o);
         myViewModel.updateData(myData);
          */

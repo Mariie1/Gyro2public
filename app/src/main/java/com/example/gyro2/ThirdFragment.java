@@ -1,5 +1,8 @@
 package com.example.gyro2;
 
+import static androidx.core.content.ContextCompat.getSystemService;
+
+import android.accessibilityservice.AccessibilityService;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.hardware.Sensor;
@@ -16,13 +19,17 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.room.InvalidationTracker;
 
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 
 public class ThirdFragment extends Fragment {
+
     private SensorManager sensorManager;
     private Sensor sensor;
     private MyViewModel myViewModel;
@@ -30,6 +37,9 @@ public class ThirdFragment extends Fragment {
 
     private Observer o;
     private TextView DataTextView;
+
+
+
 
 
 
@@ -44,7 +54,10 @@ public class ThirdFragment extends Fragment {
         return view;
 
     }
-    private android.hardware.SensorEventListener listener = new SensorEventListener() {
+
+    private SensorEventListener listener = new SensorEventListener() {
+
+
         @Override
         public void onSensorChanged(SensorEvent event) {
             float[] linear_acceleration = new float[3];
@@ -52,31 +65,43 @@ public class ThirdFragment extends Fragment {
             linear_acceleration[1] = event.values[1];
             linear_acceleration[2] = event.values[2];
 
-           // System.out.println(linear_acceleration[0]);
-            ArrayList<float[]> acc_readings = new ArrayList<>(Arrays.asList(linear_acceleration));
+            // System.out.println(linear_acceleration[0]);
+            ArrayList<float[]> acc_readings = new ArrayList<>(Collections.singletonList(linear_acceleration));
+
+
             myViewModel.updateData(acc_readings);
 
+
         }
+
         @Override
         public void onAccuracyChanged(Sensor sensor, int accuracy) {
         }
+
     };
+
+
+
+
 
 
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        //myViewModel = new ViewModelProvider(requireActivity()).get(MyViewModel.class);
 
-        myViewModel.getData().observe(getViewLifecycleOwner(), new Observer<ArrayList<float[]>>() {
+        /*Observer<ArrayList<float[]>> dataObserver = new Observer<ArrayList<float[]>>() {
             @Override
-            public void onChanged(ArrayList<float[]> floats) {
-                DataTextView.setText((CharSequence) myData);
+            public void onChanged(ArrayList<float[]> myData) {
+                updateUI(myData);
             }
-        });
+        };
+        myViewModel.getLiveData().observe(getViewLifecycleOwner(),dataObserver);
+*/
+        DataTextView = view.findViewById(R.id.textView);
 
-
-        TextView feedbackTitleView = view.findViewById(R.id.textView);
+        //TextView feedbackTitleView = view.findViewById(R.id.textView);
 
         Bundle args = getArguments();
         ThirdFragmentArgs thirdFragmentArgs = null;
@@ -85,7 +110,11 @@ public class ThirdFragment extends Fragment {
         }
 
         if(thirdFragmentArgs != null){
-            feedbackTitleView.setText(thirdFragmentArgs.getFeedbackTitle());
+
+            DataTextView.setText((CharSequence) myViewModel.getLiveData());
         }
     }
+   /* private void updateUI(ArrayList<float[]> myData){
+
+    }*/
 }

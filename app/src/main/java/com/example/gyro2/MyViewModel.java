@@ -33,12 +33,13 @@ public class MyViewModel extends BaseViewModel {
         myDataLiveData.setValue(MyData);
     }
 
-    public LiveData<ArrayList<float[]>> getData(){
+    public LiveData<ArrayList<float[]>> getLiveData(){
+
         return myDataLiveData;
     }
 
 
-    public void observeData(LifecycleOwner owner, Observer<ArrayList<float[]>> observer){
+    public void observeData(LifecycleOwner owner, Observer observer){
         myDataLiveData.observe(owner, observer);
     }
 
