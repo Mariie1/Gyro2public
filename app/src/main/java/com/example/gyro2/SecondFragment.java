@@ -21,29 +21,45 @@ public class SecondFragment extends Fragment {
     //private String[] myData;
     private MyDataDao myDataDao;
     private RecyclerView myRecyclerview;
-    private MyDatabase db;
+    //private MyDatabase db;
+    private MyAdapter myAdapter;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_second, container, false);
-        myRecyclerview = (RecyclerView) v.findViewById(R.id.recyclerView);
+        myRecyclerview = v.findViewById(R.id.recyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false);
         myRecyclerview.setLayoutManager(layoutManager);
-        myRecyclerview.setAdapter(new MyAdapter(myData));
+        myAdapter = new MyAdapter(myData);
+        myRecyclerview.setAdapter(myAdapter);
 
-        db =((GyroApplication) getActivity().getApplication()).getDatabase();
-        MyDataDao dataDao = db.myDataDao();
-        myData = dataDao.getAllSync();
+
         return v;
 
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        RecyclerView RecyclerViewTitleView = view.findViewById(R.id.recyclerView);
+    public void onViewCreated(@NonNull View v, @Nullable Bundle savedInstanceState) {
+       // RecyclerView RecyclerViewTitleView = view.findViewById(R.id.recyclerView);
+        super.onViewCreated(v, savedInstanceState);
 
+        MyDatabase db = ((GyroApplication) getActivity().getApplication()).getDatabase();
+        myDataDao = db.myDataDao();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                myData = myDataDao.getLastNData(15);
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        myAdapter.setMyData(myData);
+                        myAdapter.notifyDataSetChanged();
+                    }
+                });
+            }
+        }).start();
         //MyAdapter adapter = new MyAdapter(myData);
-        Bundle args = getArguments();
+        /*Bundle args = getArguments();
 
         SecondFragmentArgs secondFragmentArgs = null;
         if (args != null){
@@ -55,6 +71,6 @@ public class SecondFragment extends Fragment {
 
         if(secondFragmentArgs != null){
             //Ein Recyclerview braucht keinen title oder?
-        }
+        }*/
     }
 }

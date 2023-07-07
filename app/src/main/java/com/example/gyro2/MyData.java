@@ -14,7 +14,8 @@ public class MyData {
     public String data;
 
     public MyData(String data) {
-                 this.data= data;
+
+        this.data= data;
     }
 
 

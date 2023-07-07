@@ -13,6 +13,7 @@ public abstract class BaseViewModel extends AndroidViewModel {
     }
 
     public MyDatabase getDatabase(){
+
         return((GyroApplication) getApplication()).getDatabase();
     }
 }

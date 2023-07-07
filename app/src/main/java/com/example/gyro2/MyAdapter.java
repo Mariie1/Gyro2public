@@ -18,17 +18,17 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
      * (custom ViewHolder)
      */
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView textView; //da war mal final
+        private TextView textView2; //da war mal final
 
         public ViewHolder(View view) {
             super(view);
             // Define click listener for the ViewHolder's View
 
-            textView = (TextView) view.findViewById(R.id.textView);
+            textView2 = (TextView) view.findViewById(R.id.textView2);
         }
 
         public TextView getTextView() {
-            return textView;
+            return textView2;
         }
     }
     public MyAdapter(List<MyData> data) {
@@ -64,6 +64,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     public int getItemCount() {
         //List<MyData> dataList = data.getValue();
         return data != null ? data.size() : 0;
+    }
+    public void setMyData(List<MyData> data) {
+        this.data = data;
+        notifyDataSetChanged();
     }
 }
 
