@@ -13,6 +13,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.HorizontalScrollView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -32,18 +34,26 @@ public class ThirdFragment extends Fragment {
 
     private SensorManager sensorManager;
     private Sensor sensor;
+    private ScrollView scrollView;
     private MyViewModel myViewModel;
     private MyData myData;
 
     private Observer o;
     private TextView DataTextView;
+    private Observer<ArrayList<float[]>> dataObserver;
 
 
-
-
-
-
-
+    public void onCreate(@Nullable Bundle savedInstanceState){
+        super.onCreate(savedInstanceState);
+        sensorManager = (SensorManager) requireContext().getSystemService(Context.SENSOR_SERVICE);
+        sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        dataObserver = new Observer<ArrayList<float[]>>() {
+            @Override
+            public void onChanged(ArrayList<float[]> myData) {
+                updateUI(myData);
+            }
+        };
+    }
     @Nullable
     @Override
     public View onCreateView( LayoutInflater inflater,  ViewGroup container,  Bundle savedInstanceState) {
@@ -51,12 +61,12 @@ public class ThirdFragment extends Fragment {
 
         View view =   inflater.inflate(R.layout.fragment_third, container, false);
         DataTextView = view.findViewById(R.id.textView);
+        scrollView = view.findViewById(R.id.scrollView);
         return view;
 
     }
 
     private SensorEventListener listener = new SensorEventListener() {
-
 
         @Override
         public void onSensorChanged(SensorEvent event) {
@@ -65,13 +75,12 @@ public class ThirdFragment extends Fragment {
             linear_acceleration[1] = event.values[1];
             linear_acceleration[2] = event.values[2];
 
-            // System.out.println(linear_acceleration[0]);
-            ArrayList<float[]> acc_readings = new ArrayList<>(Collections.singletonList(linear_acceleration));
+            //System.out.println(linear_acceleration[1]);
+            ArrayList<float[]> acc_readings = new ArrayList<>();
+            acc_readings.add(linear_acceleration);
 
-
-            myViewModel.updateData(acc_readings);
-
-
+            myViewModel.insertData(acc_readings);
+            //DataTextView.setText((CharSequence) acc_readings);
         }
 
         @Override
@@ -80,41 +89,45 @@ public class ThirdFragment extends Fragment {
 
     };
 
-
-
-
-
-
-
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        //myViewModel = new ViewModelProvider(requireActivity()).get(MyViewModel.class);
+        MyDataDao myDataDao = ((GyroApplication) requireActivity().getApplication()).getDatabase().myDataDao();
+        MyViewModelFactory factory = new MyViewModelFactory(requireActivity().getApplication(), myDataDao);
+        myViewModel = new ViewModelProvider(requireActivity(), factory).get(MyViewModel.class);
 
-        /*Observer<ArrayList<float[]>> dataObserver = new Observer<ArrayList<float[]>>() {
+        myViewModel.observeData(getViewLifecycleOwner(), new Observer<ArrayList<float[]>>() {
             @Override
             public void onChanged(ArrayList<float[]> myData) {
+
                 updateUI(myData);
             }
-        };
-        myViewModel.getLiveData().observe(getViewLifecycleOwner(),dataObserver);
-*/
-        DataTextView = view.findViewById(R.id.textView);
+        });
 
-        //TextView feedbackTitleView = view.findViewById(R.id.textView);
+        sensorManager.registerListener(listener, sensor, SensorManager.SENSOR_DELAY_NORMAL);
 
-        Bundle args = getArguments();
-        ThirdFragmentArgs thirdFragmentArgs = null;
-        if (args != null){
-            thirdFragmentArgs = ThirdFragmentArgs.fromBundle(args);
-        }
 
-        if(thirdFragmentArgs != null){
-
-            DataTextView.setText((CharSequence) myViewModel.getLiveData());
-        }
     }
-   /* private void updateUI(ArrayList<float[]> myData){
+    private void updateUI(ArrayList<float[]> myData) {
+        StringBuilder sb = new StringBuilder();
+        for (float[] values : myData) {
+            sb.append(Arrays.toString(values)).append("\n");
+        }
+        DataTextView.setText(sb.toString());
 
-    }*/
+        // Scrollen zum Ende des TextViews
+
+        scrollView.post(new Runnable() {
+            @Override
+            public void run() {
+                scrollView.fullScroll(ScrollView.FOCUS_DOWN);
+            }
+        });
+
+    }
+    public void onPause() {
+        super.onPause();
+        sensorManager.unregisterListener(listener);
+
+    }
 }

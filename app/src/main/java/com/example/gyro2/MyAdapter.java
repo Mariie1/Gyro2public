@@ -5,16 +5,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.List;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     private String[] objects;
+    private List<MyData> data;
     /**
      * Provide a reference to the type of views that you are using
      * (custom ViewHolder)
      */
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        private final TextView textView;
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        private TextView textView; //da war mal final
 
         public ViewHolder(View view) {
             super(view);
@@ -27,8 +31,15 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             return textView;
         }
     }
-    public MyAdapter(String [] data) {
-        objects = data;
+    public MyAdapter(List<MyData> data) {
+        this.data = data;
+        /*Object strdata = data.getValue(); // Get the value from LiveData
+
+        // Create a string array with the same size as the dataList
+        String[] stringArray = new String[1];
+        String dataString = strdata.toString();
+        stringArray[0] = dataString;
+        objects = stringArray;*/
     }
 
     @Override
@@ -41,12 +52,18 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-
-        holder.getTextView().setText(objects[position]);
+        //List<MyData> dataList = data.getValue();
+        if (data != null && position < data.size()) {
+            MyData myData = data.get(position);
+            holder.getTextView().setText(myData.data);
+        }
         //holder.itemView...
+
     }
     @Override
     public int getItemCount() {
-        return objects.length;
+        //List<MyData> dataList = data.getValue();
+        return data != null ? data.size() : 0;
     }
 }
+

@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 
 import java.util.ArrayList;
+import java.util.List;
 
 //nicht sicher ob das hier alles passt
 public class MyViewModel extends BaseViewModel {
@@ -24,12 +25,41 @@ public class MyViewModel extends BaseViewModel {
 
     public void updateData(ArrayList<float[]> MyData) {
         myDataLiveData.setValue(MyData);
-        textfield.setValue("Initialer Text");
 
+
+    }
+    public void insertData(ArrayList<float[]> myData) {
+        // ...
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                for (float[] data : myData) {
+                    StringBuilder sb = new StringBuilder();
+                    for (float value : data) {
+                        sb.append(value).append(" ");
+                    }
+                    MyData myDataObject = new MyData(sb.toString());
+                    myDataDao.insertAll(myDataObject);
+                }
+                // Datenbankabfrage, um die aktualisierten Daten abzurufen und in die LiveData zu übertragen
+                List<MyData> newData = myDataDao.getAllSync(); // Synchroner Datenbankzugriff
+                ArrayList<float[]> updatedData = new ArrayList<>();
+                for (MyData dataObject : newData) {
+                    // Daten in den ursprünglichen float[]-Format umwandeln
+                    String[] values = dataObject.data.split(" ");
+                    float[] valuesArray = new float[values.length];
+                    for (int i = 0; i < values.length; i++) {
+                        valuesArray[i] = Float.parseFloat(values[i]);
+                    }
+                    updatedData.add(valuesArray);
+                }
+                myDataLiveData.postValue(updatedData); // Post the value on the main thread
+            }
+        }).start();
     }
 
     public void setMyData(ArrayList<float[]> MyData){
-
         myDataLiveData.setValue(MyData);
     }
 
@@ -37,7 +67,6 @@ public class MyViewModel extends BaseViewModel {
 
         return myDataLiveData;
     }
-
 
     public void observeData(LifecycleOwner owner, Observer observer){
         myDataLiveData.observe(owner, observer);

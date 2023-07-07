@@ -30,49 +30,10 @@ public class HostActivity extends AppCompatActivity{
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_host);
 
-        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        if(  sensor != null)
-        {
-            sensorManager.registerListener(listener, sensor, SensorManager.SENSOR_DELAY_NORMAL);
-
-        }
-
-        //Sensor registern
-        //MyData.observe(this, new Observer<MyData>(){
-        //@Override
-        //public void onChanged(MyData myData){
-            //textfield.setText(myData.myStringData);
-        //}
-        //});
-    }
-    public void unregisterSensor() {
-        if (sensorManager != null && listener != null) {
-            sensorManager.unregisterListener(listener);
-        }
-    }
-    /*private Observer<ArrayList<float[]>> o = new Observer<ArrayList<float[]>>() {
-
-       @Override
-       public void onChanged(MyData myData) {
-           text-field.setText((CharSequence) myData);
-       }
-   };*/
-    @Override
-    public void onResume() {
-        super.onResume();
-        sensorManager.registerListener(listener, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
-        sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        /* myViewModel.observeData(getViewLifecycleOwner(),o);
-        myViewModel.updateData(myData);
-         */
-    }
-    public void onPause() {
-        super.onPause();
-        sensorManager.unregisterListener(listener);
 
     }
 
