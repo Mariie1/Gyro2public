@@ -30,10 +30,6 @@ public class SecondFragment extends Fragment {
         myRecyclerview = v.findViewById(R.id.recyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false);
         myRecyclerview.setLayoutManager(layoutManager);
-        myAdapter = new MyAdapter(myData);
-        myRecyclerview.setAdapter(myAdapter);
-
-
         return v;
 
     }
@@ -48,29 +44,20 @@ public class SecondFragment extends Fragment {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                myData = myDataDao.getLastNData(15);
+                myData = myDataDao.getLastNData(30);
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        myAdapter.setMyData(myData);
-                        myAdapter.notifyDataSetChanged();
+                        myAdapter = new MyAdapter(myData);
+                        myRecyclerview.setAdapter(myAdapter);
+
                     }
                 });
             }
         }).start();
-        //MyAdapter adapter = new MyAdapter(myData);
-        /*Bundle args = getArguments();
 
-        SecondFragmentArgs secondFragmentArgs = null;
-        if (args != null){
-            secondFragmentArgs = SecondFragmentArgs.fromBundle(args);
-            db =((GyroApplication) getActivity().getApplication()).getDatabase();
-            MyDataDao dataDao = db.myDataDao();
-            myData = dataDao.getAllSync();
-        }
 
-        if(secondFragmentArgs != null){
-            //Ein Recyclerview braucht keinen title oder?
-        }*/
+
+
     }
 }

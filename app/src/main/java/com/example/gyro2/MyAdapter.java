@@ -52,14 +52,22 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        //List<MyData> dataList = data.getValue();
+        StringBuilder sb = new StringBuilder();
+
         if (data != null && position < data.size()) {
-            MyData myData = data.get(position);
-            holder.getTextView().setText(myData.data);
+            for (int i = 0; i < data.size(); i++) {
+                MyData myData = data.get(i);
+                sb.append(myData.data);
+                if (i < data.size() - 1) {
+                    sb.append("\n");
+                }
+            }
+        }
+            holder.getTextView().setText(sb.toString());
         }
         //holder.itemView...
 
-    }
+
     @Override
     public int getItemCount() {
         //List<MyData> dataList = data.getValue();
