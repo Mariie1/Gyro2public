@@ -14,8 +14,4 @@ public class GyroApplication extends android.app.Application {
                 getApplicationContext(),
                 MyDatabase.class, "my-database").build();
     }
-
-
-
-
 }

@@ -8,20 +8,15 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class SecondFragment extends Fragment {
-
     private List<MyData> myData;
-    //private String[] myData;
     private MyDataDao myDataDao;
     private RecyclerView myRecyclerview;
-    //private MyDatabase db;
     private MyAdapter myAdapter;
     @Nullable
     @Override
@@ -31,12 +26,10 @@ public class SecondFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false);
         myRecyclerview.setLayoutManager(layoutManager);
         return v;
-
     }
 
     @Override
     public void onViewCreated(@NonNull View v, @Nullable Bundle savedInstanceState) {
-       // RecyclerView RecyclerViewTitleView = view.findViewById(R.id.recyclerView);
         super.onViewCreated(v, savedInstanceState);
 
         MyDatabase db = ((GyroApplication) getActivity().getApplication()).getDatabase();
@@ -50,14 +43,9 @@ public class SecondFragment extends Fragment {
                     public void run() {
                         myAdapter = new MyAdapter(myData);
                         myRecyclerview.setAdapter(myAdapter);
-
                     }
                 });
             }
         }).start();
-
-
-
-
     }
 }

@@ -14,7 +14,6 @@ public class MyViewModelFactory implements ViewModelProvider.Factory {
         this.application = application;
         this.myDataDao = myDataDao;
     }
-
     @NonNull
     @Override
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
@@ -23,5 +22,4 @@ public class MyViewModelFactory implements ViewModelProvider.Factory {
         }
         throw new IllegalArgumentException("Unknown ViewModel class: " + modelClass.getName());
     }
-
 }
